@@ -1,5 +1,5 @@
 #include <fstream>
-#include "dpll.h"
+#include "satool.h"
 
 using namespace std;
 vector<short> get_clause(string);
@@ -49,8 +49,9 @@ int main( int argc, char *argv[]) {
         cout<<"ERROR: File specified either does not exist or incorrect file name specified!"<<endl;
         exit(1);
     }
-    DPLL calc(pos_equation);
+    SATool calc(pos_equation);
     calc.calculate_iter();
+    calc.calculate_greedy();
     cout<<"Everything seems right!"<<endl;
     return 0;
 }
