@@ -139,10 +139,10 @@ void SATool::calculate_greedy() {
         bool satisfied = check_pair_sat(chosen_var, attempted_once, backtrack);
         if(satisfied) {
             if(attempted_once){
-                solution.push_back(make_pair(chosen_var,false));   
+                solution.push_back(make_pair(chosen_var,!attempted_once));   
             }
             else{
-                solution.push_back(make_pair(chosen_var,true));
+                solution.push_back(make_pair(chosen_var,attempted_once));
             }
             if(var_list.size()==0){
                 cout<<"Equation is solved!"<<endl;
@@ -155,7 +155,7 @@ void SATool::calculate_greedy() {
         else {
             if(!attempted_once){
                 attempted_once = true;
-                continue;
+                
             }
             else{
                 if(sol_var.size()==0){
@@ -163,16 +163,15 @@ void SATool::calculate_greedy() {
                     break;
                 }
                 // backtrack step here
-                if(!solution.back().second){
+                if(solution.back().second==false){
                     backtrack = true;
-                }
-                else {
-                    backtrack = false;
-                }
-                attempted_once = true;
-                var_list.push_back(solution.back().first);
-                solution.pop_back();
-                sol_var.pop_back();
+		    cout<<"backtracking!"<<endl;
+		    // ISSUE! NEED TO BACKTRACK ASSGN VARIABLE WHEN DOING BACKTRACK!
+		    cout<<"variable: "<<solution.back().first<<endl;
+               	    var_list.push_back(solution.back().first);
+		    solution.pop_back();
+                    sol_var.pop_back();
+		}
             }
         }
     }
