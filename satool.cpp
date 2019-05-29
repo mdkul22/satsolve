@@ -139,10 +139,10 @@ void SATool::calculate_greedy() {
         bool satisfied = check_pair_sat(chosen_var, attempted_once, backtrack);
         if(satisfied) {
             if(attempted_once){
-                solution.push_back(make_pair(chosen_var,!attempted_once));   
+                solution.push_back(make_pair(chosen_var,false));   
             }
             else{
-                solution.push_back(make_pair(chosen_var,attempted_once));
+                solution.push_back(make_pair(chosen_var,true));
             }
             if(var_list.size()==0){
                 cout<<"Equation is solved!"<<endl;
@@ -163,15 +163,26 @@ void SATool::calculate_greedy() {
                     break;
                 }
                 // backtrack step here
-                if(solution.back().second==false){
+                if(solution.back().second == false){
                     backtrack = true;
-		    cout<<"backtracking!"<<endl;
-		    // ISSUE! NEED TO BACKTRACK ASSGN VARIABLE WHEN DOING BACKTRACK!
-		    cout<<"variable: "<<solution.back().first<<endl;
-               	    var_list.push_back(solution.back().first);
-		    solution.pop_back();
+		             cout<<"backtracking!"<<endl;
+		            // ISSUE! NEED TO BACKTRACK ASSGN VARIABLE WHEN DOING BACKTRACK!
+                    backtracker(solution.back().first);
+		            cout<<"variable: "<<solution.back().first<<endl;
+                    var_list.push_back(solution.back().first);
+		            solution.pop_back();
                     sol_var.pop_back();
-		}
+		        }
+                else {
+                    attempted_once = true;
+                    backtrack = false;
+                    backtracker(solution.back().first);
+		            cout<<"variable to be checked for a zero assgn: "<<solution.back().first<<endl;
+                    var_list.push_back(solution.back().first);
+		            solution.pop_back();
+                    sol_var.pop_back();
+
+                }
             }
         }
     }
@@ -225,6 +236,13 @@ bool SATool::check_pair_sat(int rand_var, bool attempt, bool backtrack){
 
 }
 
+void SATool::backtracker(int var){
+    for(int i=0; i<no_clauses; i++){
+        if(equation[i][var] != 0){
+            assgn[i][var] = 1;
+        }
+    }
+}
 int myrandom(int i) { return rand() % i; }
 
 

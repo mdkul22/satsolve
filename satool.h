@@ -30,4 +30,5 @@ class SATool
         bool check_solution(std::vector<bool>);
         void print_solutions(std::vector<std::vector<bool> >);
         bool check_pair_sat(int, bool, bool);
+        void backtracker(int);
 };

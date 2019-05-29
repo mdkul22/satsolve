@@ -50,7 +50,7 @@ int main( int argc, char *argv[]) {
         exit(1);
     }
     SATool calc(pos_equation);
-    calc.calculate_iter();
+ //   calc.calculate_iter();
     calc.calculate_greedy();
     cout<<"Everything seems right!"<<endl;
     return 0;
